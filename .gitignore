@@ -19,4 +19,35 @@ rad.json
 #License-file
 *.flf
 #Test results file
-TestResults.xml
+TestResults.xml 
+  
+  # VSCode
+.vscode/
+
+# Logs
+*.log
+GitPushLog.txt
+
+# Batch files
+*.bat
+
+# Node
+node_modules/
+
+# Env
+.env
+
+# Build
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+
+# Database
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
