@@ -1,0 +1,9 @@
+.tag{
+  background-color: aqua;
+  border: 15px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.link{
+  background-color: rgb(193, 206, 16);
+  font-style:italic;
+}

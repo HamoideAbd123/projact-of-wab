@@ -1,0 +1,9 @@
+.haed{
+    border: 10px,rgb(202, 56, 146),solid;
+    width: 194%;
+    text-indent: 300px;
+    height: 99px;
+    text-box: none;
+    text-transform: capitalize;
+    -webkit-text-stroke-width: medium;
+}

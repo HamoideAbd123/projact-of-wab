@@ -1,0 +1,20 @@
+src/
+ ├── assets/            # صور الهواتف
+ │   ├── samsung-s24.png
+ │   └── iphone15pro.png
+ │
+ ├── components/
+ │   ├── Navbar.jsx
+ │   ├── Footer.jsx
+ │   ├── PhoneCard.jsx
+ │   └── PhoneDetails.jsx
+ │
+ ├── pages/
+ │   ├── Home.jsx
+ │   └── Phones.jsx
+ │
+ ├── data/
+ │   └── phones.js
+ │
+ ├── App.jsx
+ └── main.jsx
