@@ -6,6 +6,12 @@ export async function getPhones(params?: URLSearchParams) {
     return res.json();
 }
 
+export async function getSamsungPhones() {
+    const res = await fetch(`${API_URL}/phones/samsung/`);
+    if (!res.ok) throw new Error('Failed to fetch Samsung phones');
+    return res.json();
+}
+
 export async function getPhone(id: number) {
     const res = await fetch(`${API_URL}/phones/${id}/`);
     if (!res.ok) throw new Error('Failed to fetch phone details');

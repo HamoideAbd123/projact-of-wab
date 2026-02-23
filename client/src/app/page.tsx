@@ -13,7 +13,11 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({});
 
-  const brands = ["Apple", "Samsung", "Google", "OnePlus", "Xiaomi"];
+  const brands = [
+    "Apple", "Samsung", "Google", "OnePlus", "Xiaomi",
+    "Sony", "Motorola", "Asus", "Nothing", "Oppo",
+    "Vivo", "Realme", "Huawei", "Honor", "ZTE"
+  ];
 
   const fetchPhones = async (currentFilters: any) => {
     setLoading(true);
@@ -53,6 +57,12 @@ export default function Home() {
               className="bg-white text-blue-600 px-8 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg"
             >
               Start Comparing
+            </Link>
+            <Link
+              href="/samsung"
+              className="bg-blue-500/20 backdrop-blur-md text-white border border-white/30 px-8 py-3 rounded-xl font-bold hover:bg-blue-500/30 transition-colors"
+            >
+              Samsung Store
             </Link>
           </div>
         </div>

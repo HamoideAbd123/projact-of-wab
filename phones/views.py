@@ -4,12 +4,17 @@ from .models import Phone
 from .serializers import PhoneSerializer
 
 class PhoneListView(generics.ListAPIView):
-    queryset = Phone.objects.all()
     serializer_class = PhoneSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['brand', 'price']
     search_fields = ['name', 'brand', 'processor']
     ordering_fields = ['price', 'created_at']
+
+    def get_queryset(self):
+        brand = self.kwargs.get('brand')
+        if brand:
+            return Phone.objects.filter(brand__iexact=brand)
+        return Phone.objects.all()
 
 class PhoneDetailView(generics.RetrieveAPIView):
     queryset = Phone.objects.all()
