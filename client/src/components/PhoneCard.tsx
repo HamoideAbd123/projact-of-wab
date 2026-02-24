@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone } from "@/types";
-import { Cpu, Maximize, Database, ArrowRight } from "lucide-react";
+import { Cpu, Database, ArrowRight } from "lucide-react";
 
 interface PhoneCardProps {
     phone: Phone;
@@ -13,10 +13,12 @@ export default function PhoneCard({ phone }: PhoneCardProps) {
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div className="relative h-64 w-full bg-gray-50 flex items-center justify-center p-6">
-                <img
+                <Image
                     src={phone.image_url}
                     alt={phone.name}
-                    className="h-full object-contain hover:scale-105 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    className="object-contain p-6 hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-4 left-4">
                     <span className="bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-gray-600 border border-gray-100">

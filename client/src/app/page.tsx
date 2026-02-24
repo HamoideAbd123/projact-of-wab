@@ -1,17 +1,26 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { getPhones } from "@/lib/api";
 import { Phone } from "@/types";
 import PhoneCard from "@/components/PhoneCard";
 import FilterBar from "@/components/FilterBar";
-import { Smartphone, RefreshCcw } from "lucide-react";
+import { AlertCircle, Smartphone, RefreshCcw } from "lucide-react";
+
+type PhoneFilters = {
+  brand?: string;
+  minPrice?: string;
+  maxPrice?: string;
+};
 
 export default function Home() {
+  const searchParams = useSearchParams();
   const [phones, setPhones] = useState<Phone[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({});
+  const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState<PhoneFilters>({});
 
   const brands = [
     "Apple", "Samsung", "Google", "OnePlus", "Xiaomi",
@@ -19,26 +28,30 @@ export default function Home() {
     "Vivo", "Realme", "Huawei", "Honor", "ZTE"
   ];
 
-  const fetchPhones = async (currentFilters: any) => {
+  const fetchPhones = async (currentFilters: PhoneFilters, searchTerm: string) => {
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams();
       if (currentFilters.brand) params.append("brand", currentFilters.brand);
       if (currentFilters.minPrice) params.append("price_min", currentFilters.minPrice);
       if (currentFilters.maxPrice) params.append("price_max", currentFilters.maxPrice);
+      if (searchTerm) params.append("search", searchTerm);
 
       const data = await getPhones(params);
       setPhones(data);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to load phones.";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPhones(filters);
-  }, [filters]);
+    const search = searchParams.get("search")?.trim() ?? "";
+    fetchPhones(filters, search);
+  }, [filters, searchParams]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -49,7 +62,7 @@ export default function Home() {
             Find Your Next <br /> Perfect Smartphone
           </h1>
           <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-lg">
-            Compare specs, prices, and features of the world's best phones in one clean, minimal interface.
+            Compare specs, prices, and features of the world&apos;s best phones in one clean, minimal interface.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -84,6 +97,13 @@ export default function Home() {
             {loading && <RefreshCcw className="h-5 w-5 text-blue-600 animate-spin" />}
           </div>
 
+          {error && (
+            <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 flex items-start gap-2">
+              <AlertCircle className="h-5 w-5 mt-0.5 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
           {!loading && phones.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
               {phones.map((phone) => (
@@ -97,6 +117,7 @@ export default function Home() {
               </div>
               <p className="text-gray-500 font-medium">No phones found matching your filters.</p>
               <button
+                aria-label="Clear all filters"
                 onClick={() => setFilters({})}
                 className="mt-4 text-blue-600 font-bold hover:underline"
               >

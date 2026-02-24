@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Filter, X, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { Filter } from "lucide-react";
 
 interface FilterBarProps {
     onFilterChange: (filters: { brand?: string; minPrice?: string; maxPrice?: string }) => void;
@@ -65,6 +65,7 @@ export default function FilterBar({ onFilterChange, brands }: FilterBarProps) {
                 <div className="flex items-center space-x-2">
                     <input
                         type="number"
+                        min="0"
                         placeholder="Min"
                         value={minPrice}
                         onChange={(e) => setMinPrice(e.target.value)}
@@ -73,6 +74,7 @@ export default function FilterBar({ onFilterChange, brands }: FilterBarProps) {
                     <span className="text-gray-400">—</span>
                     <input
                         type="number"
+                        min="0"
                         placeholder="Max"
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(e.target.value)}

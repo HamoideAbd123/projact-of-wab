@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Mobiles6G | Smartphone Showcase",
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-gray-50`}>
+      <body className={`${inter.variable} ${inter.className} min-h-screen flex flex-col bg-gray-50`}>
         <Navbar />
         <main className="flex-grow">
           {children}

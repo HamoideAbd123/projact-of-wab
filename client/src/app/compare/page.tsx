@@ -1,26 +1,30 @@
 import { comparePhones } from "@/lib/api";
 import { Phone } from "@/types";
-import { Check, X, Smartphone, Cpu, Image as ImageIcon, CreditCard } from "lucide-react";
+import Image from "next/image";
+import { AlertCircle, Smartphone } from "lucide-react";
 import Link from "next/link";
 
 interface PageProps {
     searchParams: Promise<{ ids?: string }>;
 }
 
+type ComparablePhoneField = "price" | "brand" | "processor" | "ram" | "storage" | "display" | "camera" | "battery";
+
 export default async function ComparePage({ searchParams }: PageProps) {
     const { ids } = await searchParams;
     const idArray = ids ? ids.split(',').map(id => parseInt(id)).filter(id => !isNaN(id)) : [];
 
     let phones: Phone[] = [];
+    let error: string | null = null;
     if (idArray.length > 0) {
         try {
             phones = await comparePhones(idArray);
-        } catch (error) {
-            console.error(error);
+        } catch (err) {
+            error = err instanceof Error ? err.message : "Failed to load comparison data.";
         }
     }
 
-    const specRows = [
+    const specRows: { label: string; key: ComparablePhoneField; prefix?: string }[] = [
         { label: "Price", key: "price", prefix: "$" },
         { label: "Brand", key: "brand" },
         { label: "Processor", key: "processor" },
@@ -36,9 +40,16 @@ export default async function ComparePage({ searchParams }: PageProps) {
             <div className="mb-10 text-center">
                 <h1 className="text-4xl font-black text-gray-900 mb-4">Compare Phones</h1>
                 <p className="text-gray-500 max-w-xl mx-auto text-lg">
-                    Detailed side-by-side comparison of the world's most powerful mobile devices.
+                    Detailed side-by-side comparison of the world&apos;s most powerful mobile devices.
                 </p>
             </div>
+
+            {error && (
+                <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 flex items-start gap-2">
+                    <AlertCircle className="h-5 w-5 mt-0.5 shrink-0" />
+                    <span>{error}</span>
+                </div>
+            )}
 
             {phones.length > 0 ? (
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -52,9 +63,11 @@ export default async function ComparePage({ searchParams }: PageProps) {
                                     {phones.map((phone) => (
                                         <th key={phone.id} className="p-6 text-center min-w-[250px] border-l border-gray-50">
                                             <div className="flex flex-col items-center">
-                                                <img
+                                                <Image
                                                     src={phone.image_url}
                                                     alt={phone.name}
+                                                    width={160}
+                                                    height={160}
                                                     className="h-32 object-contain mb-4"
                                                 />
                                                 <h3 className="font-bold text-gray-900">{phone.name}</h3>
@@ -77,7 +90,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                                         </td>
                                         {phones.map((phone) => (
                                             <td key={phone.id} className="p-6 text-center text-gray-900 font-medium border-l border-gray-50">
-                                                {row.prefix || ""}{(phone as any)[row.key]}
+                                                {row.prefix || ""}{phone[row.key]}
                                             </td>
                                         ))}
                                     </tr>

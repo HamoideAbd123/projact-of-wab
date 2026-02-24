@@ -1,4 +1,5 @@
 import { Smartphone, Github, Twitter, Facebook } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
     return (
@@ -23,20 +24,19 @@ export default function Footer() {
                     <div>
                         <h4 className="text-white font-bold mb-4">Quick Links</h4>
                         <ul className="space-y-2 text-sm">
-                            <li><a href="/" className="hover:text-white">Home</a></li>
-                            <li><a href="/compare" className="hover:text-white">Compare</a></li>
-                            <li><a href="/brands" className="hover:text-white">Brands</a></li>
-                            <li><a href="/about" className="hover:text-white">About Us</a></li>
+                            <li><Link href="/" className="hover:text-white">Home</Link></li>
+                            <li><Link href="/compare" className="hover:text-white">Compare</Link></li>
+                            <li><Link href="/samsung" className="hover:text-white">Samsung</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="text-white font-bold mb-4">Support</h4>
                         <ul className="space-y-2 text-sm">
-                            <li><a href="/contact" className="hover:text-white">Contact</a></li>
-                            <li><a href="/faq" className="hover:text-white">FAQ</a></li>
-                            <li><a href="/privacy" className="hover:text-white">Privacy Policy</a></li>
-                            <li><a href="/terms" className="hover:text-white">Terms of Service</a></li>
+                            <li><a href="mailto:support@mobiles6g.com" className="hover:text-white">Contact</a></li>
+                            <li><a href="mailto:support@mobiles6g.com?subject=Mobiles6G%20Support" className="hover:text-white">Support Email</a></li>
+                            <li>Privacy Policy (coming soon)</li>
+                            <li>Terms of Service (coming soon)</li>
                         </ul>
                     </div>
                 </div>

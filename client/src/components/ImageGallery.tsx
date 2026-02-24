@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ImageGalleryProps {
@@ -24,10 +25,12 @@ export default function ImageGallery({ images, mainImage }: ImageGalleryProps) {
         <div className="space-y-4">
             {/* Main Image Display */}
             <div className="relative aspect-square rounded-2xl bg-white border border-gray-100 overflow-hidden group">
-                <img
+                <Image
                     src={allImages[activeIndex].image_url}
                     alt="Phone view"
-                    className="w-full h-full object-contain p-8 transition-transform duration-500 hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-contain p-8 transition-transform duration-500 hover:scale-105"
                 />
 
                 {allImages.length > 1 && (
@@ -58,7 +61,13 @@ export default function ImageGallery({ images, mainImage }: ImageGalleryProps) {
                             className={`relative flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${activeIndex === index ? "border-blue-600 ring-2 ring-blue-100" : "border-gray-100 opacity-60 hover:opacity-100"
                                 }`}
                         >
-                            <img src={img.image_url} alt={`Thumbnail ${index}`} className="w-full h-full object-contain p-2" />
+                            <Image
+                                src={img.image_url}
+                                alt={`Thumbnail ${index + 1}`}
+                                fill
+                                sizes="80px"
+                                className="object-contain p-2"
+                            />
                         </button>
                     ))}
                 </div>

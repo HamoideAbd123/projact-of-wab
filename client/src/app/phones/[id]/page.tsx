@@ -3,16 +3,15 @@ import { Phone } from "@/types";
 import {
     ChevronLeft,
     Cpu,
-    Smartphone,
     Camera,
     Battery,
     Database,
     Layout,
     CreditCard
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import ImageGallery from "@/components/ImageGallery";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface PageProps {
     params: Promise<{ id: string }>;
@@ -20,18 +19,25 @@ interface PageProps {
 
 export default async function PhoneDetails({ params }: PageProps) {
     const { id } = await params;
+    const phoneId = parseInt(id, 10);
+    if (isNaN(phoneId)) {
+        notFound();
+    }
+
     let phone: Phone | null = null;
+    let error: string | null = null;
 
     try {
-        phone = await getPhone(parseInt(id));
-    } catch (error) {
-        console.error(error);
+        phone = await getPhone(phoneId);
+    } catch (err) {
+        error = err instanceof Error ? err.message : "Failed to load phone details.";
     }
 
     if (!phone) {
         return (
             <div className="max-w-7xl mx-auto px-4 py-20 text-center">
                 <h1 className="text-2xl font-bold">Phone not found</h1>
+                {error && <p className="text-red-600 mt-3">{error}</p>}
                 <Link href="/" className="text-blue-600 mt-4 block">Back to Home</Link>
             </div>
         );

@@ -4,20 +4,22 @@ import { useState, useEffect } from "react";
 import { getSamsungPhones } from "@/lib/api";
 import { Phone } from "@/types";
 import PhoneCard from "@/components/PhoneCard";
-import { Smartphone, RefreshCcw, ArrowLeft } from "lucide-react";
+import { AlertCircle, Smartphone, RefreshCcw, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function SamsungPage() {
     const [phones, setPhones] = useState<Phone[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchSamsung = async () => {
             try {
                 const data = await getSamsungPhones();
                 setPhones(data);
-            } catch (error) {
-                console.error(error);
+            } catch (err) {
+                const message = err instanceof Error ? err.message : "Failed to fetch Samsung phones.";
+                setError(message);
             } finally {
                 setLoading(false);
             }
@@ -44,7 +46,7 @@ export default function SamsungPage() {
 
                         {/* Design Note: Transparent Interface */}
                         <div className="mt-8 inline-block px-4 py-2 rounded-full bg-blue-100/50 backdrop-blur-sm border border-blue-200 text-blue-800 text-sm font-semibold">
-                            ✨ Experience our "Transparent Interface" design
+                            Experience our Transparent Interface design
                         </div>
                     </div>
 
@@ -59,6 +61,13 @@ export default function SamsungPage() {
                     <h2 className="text-2xl font-bold text-gray-900">Samsung Catalog</h2>
                     {loading && <RefreshCcw className="h-5 w-5 text-blue-600 animate-spin" />}
                 </div>
+
+                {error && (
+                    <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700 flex items-start gap-2">
+                        <AlertCircle className="h-5 w-5 mt-0.5 shrink-0" />
+                        <span>{error}</span>
+                    </div>
+                )}
 
                 {!loading && phones.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -96,11 +105,11 @@ export default function SamsungPage() {
                                 <strong>Visual Transparency:</strong> Using glassmorphism (like the header above!), blurs, and semi-opaque layers to create depth and hierarchy without losing context of the background.
                             </li>
                             <li>
-                                <strong>Functional Transparency:</strong> Designing systems so intuitive that the "interface" disappears. The user focuses purely on their task—finding the perfect phone—without being conscious of the buttons and menus they are navigating.
+                                <strong>Functional Transparency:</strong> Designing systems so intuitive that the &quot;interface&quot; disappears. The user focuses purely on their task, finding the perfect phone, without being conscious of the buttons and menus they are navigating.
                             </li>
                         </ul>
                         <p>
-                            By blending these, we create a "flow state" where the technology serves as a clear window to the content.
+                            By blending these, we create a &quot;flow state&quot; where the technology serves as a clear window to the content.
                         </p>
                     </div>
                 </div>
