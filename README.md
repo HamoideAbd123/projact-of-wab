@@ -1,93 +1,68 @@
-# Mobiles6G - Smartphone Showcase Platform
+# Mobiles6G
 
-A modern, full-stack smartphone showcase application built with Django (Backend) and Next.js (Frontend).
+A full-stack smartphone showcase and catalog platform with a Django REST backend and a Next.js frontend.
 
-## 🚀 Features
+## What the project does
 
-- **Modern UI**: Clean, minimal, and responsive design with Tailwind CSS.
-- **Phone Catalog**: Comprehensive database of smartphones with detailed specs.
-- **Multi-Image Gallery**: Interactive carousel for device photos.
-- **Advanced Filtering**: Filter by brand and price range in real-time.
-- **Comparison Tool**: Side-by-side comparison of multiple devices.
-- **Admin Dashboard**: Easy-to-use interface for managing the phone catalog.
+- Smartphone catalog and detailed specifications
+- Brand and price filtering
+- Multi-image product galleries
+- Device comparison
+- Admin management through Django
+- Responsive frontend UI
 
-## 🛠️ Tech Stack
+## Architecture
 
-- **Backend**: Django, Django REST Framework
-- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
-- **Icons**: Lucide React
-
-## 🔐 Environment Setup
-
-Copy `.env.example` to `.env` and fill in real values before running in production:
-
-```bash
-cp .env.example .env
+```text
+projact-of-wab/
+├── client/                 # Next.js / React / TypeScript frontend
+├── phones/                 # Django application for smartphone data
+├── server/                 # Django project configuration and API setup
+├── manage.py               # Django CLI entry point
+├── seed_data.py            # Development data seeding
+├── .env.example            # Environment variable template
+├── DEPLOYMENT_CHECKLIST.md # Production deployment checklist
+└── README.md
 ```
 
-Important production variables:
-- `DJANGO_DEBUG=false`
-- `DJANGO_SECRET_KEY` with a strong random value
-- `DJANGO_ALLOWED_HOSTS`
-- `CORS_ALLOWED_ORIGINS` and `CSRF_TRUSTED_ORIGINS`
-- PostgreSQL connection values (`DB_*`)
-- `NEXT_PUBLIC_API_URL` for frontend
+## Stack
 
-## 📦 Getting Started
+- Backend: Django + Django REST Framework
+- Frontend: Next.js + React + TypeScript
+- Styling: Tailwind CSS
+- Icons: Lucide React
+- Production database: PostgreSQL recommended
 
-### 1. Prerequisites
-- Python 3.x
-- Node.js & npm
+## Local Development
 
-### 2. Backend Setup
+### Backend
+
 ```bash
-# Navigate to root
 python -m venv venv
-# Activate venv (Windows)
-.\venv\Scripts\activate
-# Install dependencies
+# Windows
+.\\venv\\Scripts\\activate
 pip install django djangorestframework django-cors-headers django-filter
-# Run migrations
 python manage.py migrate
-# Seed data
 python seed_data.py
-# Start server
 python manage.py runserver
 ```
 
-### 3. Frontend Setup
+### Frontend
+
 ```bash
 cd client
-# Install dependencies
 npm install
-# Start development server
 npm run dev
 ```
 
-The app will be available at `http://localhost:3000`.
+## Environment
 
-## 🚢 Production Notes
+Copy `.env.example` to `.env` and configure Django, database, CORS/CSRF, and frontend API variables. Never commit real secrets.
 
-1. Use PostgreSQL instead of SQLite.
-2. Keep `DJANGO_DEBUG=false`.
-3. Run static checks before deploy:
-```bash
-python manage.py check
-python manage.py test phones.tests.test_api
-cd client && npm run lint -- --max-warnings=0
-```
-4. Collect static files for deployment:
-```bash
-python manage.py collectstatic --noinput
-```
-5. Use the full checklist in `DEPLOYMENT_CHECKLIST.md`.
+## Deployment
 
-## 📂 Project Structure
+Use `DEPLOYMENT_CHECKLIST.md` before production deployment. Production should use `DEBUG=false`, strong secrets, PostgreSQL, correct allowed hosts/origins, and static-file collection.
 
-- `phones/`: Django app containing models, views, and serializers.
-- `server/`: Django project configuration.
-- `client/`: Next.js frontend application.
-- `seed_data.py`: Script to populate the database.
+## Development Status
 
-## 📄 License
-MIT
+Active development. The repository is kept separated into backend (`phones`, `server`) and frontend (`client`) areas to make navigation and maintenance easier.
